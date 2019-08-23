@@ -1,4 +1,13 @@
 #!/bin/sh
+#
+# The following environment variables can be set on the factory PC
+# to customize how this wrapper runs:
+#
+# OPENMSX_WORK_AREA (mandatory)
+#     path of Git work area
+#
+# OPENMSX_JOBS (optional, default: 1)
+#     number of parallel jobs Make will spawn
 
 exit_with_error() {
     echo "Aborting build because of error: $1"
