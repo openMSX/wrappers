@@ -3,9 +3,6 @@
 # The following environment variables can be set on the factory PC
 # to customize how this wrapper runs:
 #
-# OPENMSX_WORK_AREA (mandatory)
-#     path of Git work area
-#
 # OPENMSX_JOBS (optional, default: 1)
 #     number of parallel jobs Make will spawn
 
@@ -16,17 +13,12 @@ exit_with_error() {
     exit 0
 }
 
-# Go to our Git work area.
-if [ -z "$OPENMSX_WORK_AREA" ]
+# Enter source directory.
+cd "$OPENMSX_SOURCE"
+if [ $? -ne 0 ]
 then
-    exit_with_error "OPENMSX_WORK_AREA not defined"
+    exit_with_error "Failed to enter source directory $OPENMSX_SOURCE"
 fi
-if [ ! -d "$OPENMSX_WORK_AREA" ]
-then
-    exit_with_error "Work area does not exist: $OPENMSX_WORK_AREA"
-    exit 1
-fi
-cd "$OPENMSX_WORK_AREA"
 
 # Perform a clean build?
 if [ "$CLEAN_BUILD" = "yes" ]
@@ -40,21 +32,13 @@ else
     exit_with_error "Unknown value for CLEAN_BUILD: $CLEAN_BUILD"
 fi
 
-# Update sources.
-git pull origin "$GIT_REFSPEC"
-GIT_RESULT=$?
-if [ $GIT_RESULT -ne 0 ]
-then
-    exit_with_error "Git returned exit code $GIT_RESULT"
-fi
-
 # Run build.
 if [ -z "$OPENMSX_JOBS" ]
 then
     OPENMSX_JOBS=1
 fi
 export OPENMSX_FLAVOUR
-echo "Staring build with $OPENMSX_JOBS parallel job(s)"
+echo "Starting build with $OPENMSX_JOBS parallel job(s)"
 gmake -j "$OPENMSX_JOBS"
 MAKE_RESULT=$?
 if [ $MAKE_RESULT -ne 0 ]
