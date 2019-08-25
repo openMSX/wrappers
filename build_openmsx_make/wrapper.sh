@@ -65,7 +65,7 @@ then
     OPENMSX_JOBS=1
 fi
 echo "Starting build for with $OPENMSX_JOBS parallel job(s)"
-gmake -j "$OPENMSX_JOBS" "$MAKE_TARGET" \
+make -j "$OPENMSX_JOBS" "$MAKE_TARGET" \
     OPENMSX_FLAVOUR="$OPENMSX_FLAVOUR" \
     OPENMSX_TARGET_OS="$OPENMSX_TARGET_OS"
 MAKE_RESULT=$?
