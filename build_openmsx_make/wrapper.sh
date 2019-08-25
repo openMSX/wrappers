@@ -32,14 +32,42 @@ else
     exit_with_error "Unknown value for CLEAN_BUILD: $CLEAN_BUILD"
 fi
 
+# Perform a clean build?
+if [ "$OPENMSX_3RDPARTY" = "yes" ]
+then
+    echo "Performing a build including 3rd-party libraries"
+    MAKE_TARGET=staticbindist
+elif [ "$OPENMSX_3RDPARTY" = "no" ]
+then
+    echo "Performing a build using system libraries"
+    MAKE_TARGET=bindist
+else
+    exit_with_error "Unknown value for OPENMSX_3RDPARTY: $OPENMSX_3RDPARTY"
+fi
+
+# Determine target OS.
+case "$SF_TARGET" in
+windows)
+    OPENMSX_TARGET_OS=mingw-w64
+    ;;
+macos)
+    OPENMSX_TARGET_OS=darwin
+    ;;
+*)
+    OPENMSX_TARGET_OS="$SF_TARGET"
+    ;;
+esac
+echo "openMSX platform: $OPENMSX_TARGET_OS"
+
 # Run build.
 if [ -z "$OPENMSX_JOBS" ]
 then
     OPENMSX_JOBS=1
 fi
-export OPENMSX_FLAVOUR
-echo "Starting build with $OPENMSX_JOBS parallel job(s)"
-gmake -j "$OPENMSX_JOBS"
+echo "Starting build for with $OPENMSX_JOBS parallel job(s)"
+gmake -j "$OPENMSX_JOBS" "$MAKE_TARGET" \
+    OPENMSX_FLAVOUR="$OPENMSX_FLAVOUR" \
+    OPENMSX_TARGET_OS="$OPENMSX_TARGET_OS"
 MAKE_RESULT=$?
 if [ $MAKE_RESULT -ne 0 ]
 then
