@@ -8,7 +8,7 @@
 
 exit_with_error() {
     echo "Aborting build because of error: $1"
-    echo "result=error" > "$SF_RESULTS"
+    echo "result=error" >> "$SF_RESULTS"
     echo "summary=$1" >> "$SF_RESULTS"
     exit 0
 }
@@ -65,14 +65,24 @@ then
     OPENMSX_JOBS=1
 fi
 echo "Starting build for with $OPENMSX_JOBS parallel job(s)"
+echo "report=build_log.txt" >> "$SF_RESULTS"
 make -j "$OPENMSX_JOBS" "$MAKE_TARGET" \
     OPENMSX_FLAVOUR="$OPENMSX_FLAVOUR" \
-    OPENMSX_TARGET_OS="$OPENMSX_TARGET_OS"
+    OPENMSX_TARGET_OS="$OPENMSX_TARGET_OS" \
+    > "$SF_REPORT_ROOT/build_log.txt" 2>&1
 MAKE_RESULT=$?
 if [ $MAKE_RESULT -ne 0 ]
 then
     exit_with_error "Make returned exit code $MAKE_RESULT"
 fi
 
-echo "result=ok" > "$SF_RESULTS"
-echo "summary=Build succeeded" >> "$SF_RESULTS"
+# Check build log for warnings.
+grep '^src/.*: warning:' "$SF_REPORT_ROOT/build_log.txt" > /dev/null
+if [ $? -eq 0 ]
+then
+    echo "result=warning" >> "$SF_RESULTS"
+    echo "summary=Build log contains warnings" >> "$SF_RESULTS"
+else
+    echo "result=ok" >> "$SF_RESULTS"
+    echo "summary=Build succeeded" >> "$SF_RESULTS"
+fi
