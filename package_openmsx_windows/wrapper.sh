@@ -2,7 +2,7 @@
 
 exit_with_error() {
     echo "Aborting build because of error: $1"
-    echo "result=error" > "$SF_RESULTS"
+    echo "result=error" >> "$SF_RESULTS"
     echo "summary=$1" >> "$SF_RESULTS"
     exit 0
 }
