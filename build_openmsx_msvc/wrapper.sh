@@ -34,8 +34,8 @@ echo "Starting build for target $MSBUILD_TARGET, configuration $MSBUILD_CONFIG..
 "$COMSPEC" //c "$SF_WRAPPER_ROOT/build.bat" "$MSBUILD_TARGET" "$MSBUILD_CONFIG" "$SF_REPORT_ROOT"
 BUILD_RESULT=$?
 
-echo "report.1=build_openmsx_log.txt" >> "$SF_RESULTS"
-echo "report.0=build_3rdparty_log.txt" >> "$SF_RESULTS"
+echo "report.0=build_openmsx_log.txt" >> "$SF_RESULTS"
+echo "report.1=build_3rdparty_log.txt" >> "$SF_RESULTS"
 
 if [ $BUILD_RESULT -ne 0 ]
 then
