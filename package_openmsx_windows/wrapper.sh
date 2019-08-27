@@ -15,9 +15,7 @@ rm -rf "$PACKAGE_DIR"
 
 # Create packages.
 echo "Creating packages for target $MSBUILD_TARGET, configuration $MSBUILD_CONFIG..."
-echo "$COMSPEC" //c "$PWD/build/package-windows/package.cmd" "$MSBUILD_TARGET" "$MSBUILD_CONFIG" "$BUILD_RESULT_CATAPULT"
 "$COMSPEC" //c "$PWD/build/package-windows/package.cmd" "$MSBUILD_TARGET" "$MSBUILD_CONFIG" "$BUILD_RESULT_CATAPULT"
-#start //b //wait "$OPENMSX_BUILD_RESULT/build/package-windows/package.cmd" "$MSBUILD_TARGET" "$MSBUILD_CONFIG" "$CATAPULT_BUILD_RESULT"
 PACKAGE_RESULT=$?
 if [ $PACKAGE_RESULT -ne 0 ]
 then
