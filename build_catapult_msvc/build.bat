@@ -6,6 +6,6 @@ if exist "%programfiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" (
 
 call "%INSTALLPATH%\VC\Auxiliary\Build\vcvarsall.bat" %VCTARGET%
 
-msbuild -p:Configuration=%2;Platform=%1 build\3rdparty\3rdparty.sln /m
+msbuild -p:Configuration=%2;Platform=%1 build\3rdparty\3rdparty.sln /m > %3\build_3rdparty_log.txt
 if %ERRORLEVEL% NEQ 0 exit %ERRORLEVEL%
-msbuild -p:Configuration=%2;Platform=%1 build\msvc\wxCatapult.sln /m
+msbuild -p:Configuration=%2;Platform=%1 build\msvc\wxCatapult.sln /m > %3\build_catapult_log.txt
