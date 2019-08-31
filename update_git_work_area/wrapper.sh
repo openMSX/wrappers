@@ -30,7 +30,7 @@ fi
 cd "$WORK_AREA"
 
 # Fetch new sources.
-git fetch -f origin
+git fetch origin
 GIT_RESULT=$?
 if [ $GIT_RESULT -ne 0 ]
 then
@@ -38,7 +38,14 @@ then
 fi
 
 # Update work area.
-git checkout "$GIT_REFSPEC"
+if git rev-parse "origin/${GIT_REFSPEC}" > /dev/null 2>&1
+then
+    # Branch or tag.
+    git checkout "origin/${GIT_REFSPEC}"
+else
+    # Commit hash or unknown.
+    git checkout "${GIT_REFSPEC}"
+fi
 GIT_RESULT=$?
 if [ $GIT_RESULT -ne 0 ]
 then
