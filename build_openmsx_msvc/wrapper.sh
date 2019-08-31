@@ -27,7 +27,7 @@ else
 fi
 
 # Update 3rdparty sources.
-python build/thirdparty_download.py windows
+python3 build/thirdparty_download.py windows
 
 # Run build.
 echo "Starting build for target $MSBUILD_TARGET, configuration $MSBUILD_CONFIG..."
