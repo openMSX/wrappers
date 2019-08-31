@@ -29,12 +29,20 @@ then
 fi
 cd "$WORK_AREA"
 
-# Update sources.
-git pull origin "$GIT_REFSPEC"
+# Fetch new sources.
+git fetch -f origin
 GIT_RESULT=$?
 if [ $GIT_RESULT -ne 0 ]
 then
-    exit_with_error "'git pull' returned exit code $GIT_RESULT"
+    exit_with_error "'git fetch' returned exit code $GIT_RESULT"
+fi
+
+# Update work area.
+git checkout "$GIT_REFSPEC"
+GIT_RESULT=$?
+if [ $GIT_RESULT -ne 0 ]
+then
+    exit_with_error "'git checkout' returned exit code $GIT_RESULT"
 fi
 
 # Let Git describe the state.
