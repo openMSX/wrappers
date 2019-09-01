@@ -8,8 +8,7 @@ exit_with_error() {
 }
 
 # Install/upgrade APE and its dependencies.
-pip install --user --upgrade --upgrade-strategy eager apetest
-if [ $? -ne 0 ]
+if ! pip install --user --upgrade --upgrade-strategy eager apetest
 then
     exit_with_error "APE install/upgrade failed"
 fi
@@ -19,11 +18,10 @@ fi
 eval SOURCE_DIR='${'"${SF_INPUTS}"'}'
 
 # Run APE.
-apetest --check launch --css --result "$SF_RESULTS" \
+if apetest --check launch --css --result "$SF_RESULTS" \
     "$SOURCE_DIR/doc/manual/" "$SF_REPORT_ROOT/report.html"
-if [ $? -ne 0 ]
 then
+    echo "report=report.html" >> "$SF_RESULTS"
+else
     exit_with_error "APE crashed"
 fi
-
-echo "report=report.html" >> "$SF_RESULTS"
