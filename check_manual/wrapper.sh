@@ -7,8 +7,8 @@ exit_with_error() {
     exit 0
 }
 
-# Install/upgrade APE.
-pip install --user --upgrade apetest
+# Install/upgrade APE and its dependencies.
+pip install --user --upgrade --upgrade-strategy eager apetest
 if [ $? -ne 0 ]
 then
     exit_with_error "APE install/upgrade failed"
