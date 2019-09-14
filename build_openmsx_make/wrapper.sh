@@ -32,7 +32,7 @@ else
     exit_with_error "Unknown value for CLEAN_BUILD: $CLEAN_BUILD"
 fi
 
-# Perform a clean build?
+# Perform a build using libraries from the 3rd-party system?
 if [ "$OPENMSX_3RDPARTY" = "yes" ]
 then
     echo "Performing a build including 3rd-party libraries"
