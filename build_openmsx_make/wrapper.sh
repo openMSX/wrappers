@@ -14,10 +14,11 @@ exit_with_error() {
 }
 
 # Enter source directory.
-cd "$OPENMSX_SOURCE"
+eval SOURCE_DIR='${'"${SOURCE_NAME}"'}'
+cd "$SOURCE_DIR"
 if [ $? -ne 0 ]
 then
-    exit_with_error "Failed to enter source directory $OPENMSX_SOURCE"
+    exit_with_error "Failed to enter source directory $SOURCE_DIR"
 fi
 
 # Perform a clean build?
