@@ -46,6 +46,14 @@ else
     exit_with_error "Unknown value for OPENMSX_3RDPARTY: $OPENMSX_3RDPARTY"
 fi
 
+# Detect host OS.
+detected() {
+    HOST_CPU=$1
+    HOST_OS=$2
+}
+detected `python3 build/detectsys.py`
+echo "Building on host: OS $HOST_OS, CPU $HOST_CPU"
+
 # Determine target OS.
 case "$SF_TARGET" in
 windows)
@@ -54,15 +62,21 @@ windows)
 macos)
     OPENMSX_TARGET_OS=darwin
     ;;
+"")
+    OPENMSX_TARGET_OS="$HOST_OS"
+    ;;
 *)
     OPENMSX_TARGET_OS="$SF_TARGET"
     ;;
 esac
-echo "openMSX platform: $OPENMSX_TARGET_OS"
 
 # Determine target CPU.
-# TODO: Make this a parameter and use autodetection if not set.
-OPENMSX_TARGET_CPU=x86_64
+if [ -z "$OPENMSX_TARGET_CPU" ]
+then
+    OPENMSX_TARGET_CPU="$HOST_CPU"
+fi
+
+echo "Building for target: OS $OPENMSX_TARGET_OS, CPU $OPENMSX_TARGET_CPU"
 
 # Run build.
 if [ -z "$OPENMSX_JOBS" ]
