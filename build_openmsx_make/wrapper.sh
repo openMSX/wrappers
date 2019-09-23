@@ -99,8 +99,16 @@ fi
 TUPLE="$OPENMSX_TARGET_CPU-$OPENMSX_TARGET_OS-$OPENMSX_FLAVOUR"
 PRODUCT_DIR="$SF_PRODUCT_ROOT/$TUPLE"
 mkdir -p "$PRODUCT_DIR"
-mv "derived/$TUPLE/bin/openmsx" "$PRODUCT_DIR"
-echo "output.OPENMSX_EXECUTABLE.locator=$PRODUCT_DIR/openmsx" >> "$SF_RESULTS"
+case "$SF_TARGET" in
+windows)
+    EXECUTABLE=openmsx.exe
+    ;;
+*)
+    EXECUTABLE=openmsx
+    ;;
+esac
+mv "derived/$TUPLE/bin/$EXECUTABLE" "$PRODUCT_DIR"
+echo "output.OPENMSX_EXECUTABLE.locator=$PRODUCT_DIR/$EXECUTABLE" >> "$SF_RESULTS"
 
 # Check build log for warnings.
 grep '^src/.*: warning:' "$SF_REPORT_ROOT/build_log.txt" > /dev/null
