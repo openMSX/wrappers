@@ -97,6 +97,10 @@ fi
 
 # Create executable output.
 TUPLE="$OPENMSX_TARGET_CPU-$OPENMSX_TARGET_OS-$OPENMSX_FLAVOUR"
+if [ "$OPENMSX_3RDPARTY" = "yes" ]
+then
+    TUPLE="$TUPLE-3rd"
+fi
 PRODUCT_DIR="$SF_PRODUCT_ROOT/$TUPLE"
 mkdir -p "$PRODUCT_DIR"
 case "$SF_TARGET" in
