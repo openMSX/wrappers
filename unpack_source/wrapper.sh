@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 exit_with_error() {
     echo "Aborting build because of error: $1"
@@ -7,16 +7,19 @@ exit_with_error() {
     exit 0
 }
 
+# Find our input tarball.
+SRC_PACKAGE="${!SF_INPUTS}"
+
 # Create and enter source directory.
 UNPACK_DIR="$SF_PRODUCT_ROOT/unpacked_source"
 mkdir -p "$UNPACK_DIR"
 cd "$UNPACK_DIR" || exit_with_error "Failed to enter unpack directory $UNPACK_DIR"
 
 # Unpack tarball.
-tar zxvf "$SF_PRODUCT_ROOT/$OPENMSX_SRC_PACKAGE" || exit_with_error "Failed to unpack sources"
+tar zxvf "$SF_PRODUCT_ROOT/$SRC_PACKAGE" || exit_with_error "Failed to unpack sources"
 
 # Verify that the expected source directory exists.
-SOURCE_DIR="$UNPACK_DIR"/`basename "$OPENMSX_SRC_PACKAGE" .tar.gz`
+SOURCE_DIR="$UNPACK_DIR"/`basename "$SRC_PACKAGE" .tar.gz`
 if [ ! -d "$SOURCE_DIR" ]
 then
     exit_with_error "Expected source directory $SOURCE_DIR was not created"
