@@ -16,7 +16,7 @@ mkdir -p "$UNPACK_DIR"
 cd "$UNPACK_DIR" || exit_with_error "Failed to enter unpack directory $UNPACK_DIR"
 
 # Unpack tarball.
-tar zxvf "$SF_PRODUCT_ROOT/$SRC_PACKAGE" || exit_with_error "Failed to unpack sources"
+tar zxf "../$SRC_PACKAGE" || exit_with_error "Failed to unpack sources"
 
 # Verify that the expected source directory exists.
 SOURCE_DIR="$UNPACK_DIR"/`basename "$SRC_PACKAGE" .tar.gz`
