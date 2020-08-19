@@ -16,7 +16,7 @@ mkdir -p "$SF_PRODUCT_ROOT"
 SRC_PACKAGE="$SF_PRODUCT_ROOT/$PACKAGE_NAME"
 
 # Download package.
-wget "$PACKAGE_URL" -O "$SRC_PACKAGE" || exit_with_error "Failed to download sources"
+curl "$PACKAGE_URL" -o "$SRC_PACKAGE" || exit_with_error "Failed to download sources"
 
 # Write results file.
 echo "result=ok" > "$SF_RESULTS"
